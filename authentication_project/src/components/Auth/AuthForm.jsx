@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState , useRef} from "react";
 import classes from "./AuthForm.module.css";
 
@@ -24,35 +25,32 @@ const AuthForm = () => {
 
     }
     else{
-      fetch(`https://crudcrud.com/api/dfb5b7e301e2492eb241643d7093be68/bhaiyaJi`,{
-        method : 'POST',
-        body : JSON.stringify({
-          email : enteredEmail,
-          password : enteredPassword,
-          returnSecureToken : true,
-        }),
-        headers:{
-          'Content-Type' : 'application/json'
-        },
-      }).then((res)=>{
-        setIsLoading(false);
-        console.log(res);
-        // if(res.ok)
-        // {
+      // fetch(`https://crudcrud.com/api/dfb5b7e301e2492eb241643d7093be68/bhaiyaJi`,{
+      //   method : 'POST',
+      //   body : JSON.stringify({
+      //     email : enteredEmail,
+      //     password : enteredPassword,
+      //     returnSecureToken : true,
+      //   }),
+      //   headers:{
+      //     'Content-Type' : 'application/json'
+      //   },
+      // }).then((res)=>{
+      //   setIsLoading(false);
+      //   console.log(res);
+      // }).catch((err)=>{
+      //   console.log(err);
+      // })
 
-        // }
-        // else{
-        //   return res.json().then((data)=>{
-        //     let errMsg = 'Authentication Failed';
-        //     // if(data && data.error && data.error.message)
-        //     // {
-        //     //   errMsg = data.error.message;
-        //     // }
-        //     alert(errMsg);
-        //   });
-        // }
-      }).catch((err)=>{
-        console.log(err);
+      axios.post(`https://crudcrud.com/api/dfb5b7e301e2492eb241643d7093be68/bhaiyaJi`,{
+        email : enteredEmail,
+        password : enteredPassword,
+        returnSecureToken : true,
+      }).then((response)=>{
+        setIsLoading(false);
+        console.log(response);
+      }).catch((error)=>{
+        console.log(error);
       })
     }
   };
