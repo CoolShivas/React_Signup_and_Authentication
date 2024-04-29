@@ -5,7 +5,7 @@ import classes from "./AuthForm.module.css";
 const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -19,39 +19,36 @@ const AuthForm = () => {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    setIsLoading(true);
+    
     if(isLogin)
     {
-
+     
     }
     else{
-      // fetch(`https://crudcrud.com/api/dfb5b7e301e2492eb241643d7093be68/bhaiyaJi`,{
-      //   method : 'POST',
-      //   body : JSON.stringify({
-      //     email : enteredEmail,
-      //     password : enteredPassword,
-      //     returnSecureToken : true,
-      //   }),
-      //   headers:{
-      //     'Content-Type' : 'application/json'
-      //   },
-      // }).then((res)=>{
-      //   setIsLoading(false);
-      //   console.log(res);
-      // }).catch((err)=>{
-      //   console.log(err);
-      // })
+      fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=
+      AIzaSyDH5JlMv2hpQuoT9E47PiPYHTdFE_P2Gs0`,{
+        method : 'POST',
+        body : JSON.stringify({
+          email : enteredEmail,
+          password : enteredPassword,
+          returnSecureToken : true,
+        }),
+        headers:{
+          'Content-Type' : 'application/json'
+        },
+      }).then((res)=>{
+        if(res.ok){
 
-      axios.post(`https://crudcrud.com/api/dfb5b7e301e2492eb241643d7093be68/bhaiyaJi`,{
-        email : enteredEmail,
-        password : enteredPassword,
-        returnSecureToken : true,
-      }).then((response)=>{
-        setIsLoading(false);
-        console.log(response);
-      }).catch((error)=>{
-        console.log(error);
+        }
+        else{
+          return res.json().then((data)=>{
+            console.log(data);
+          })
+        }
+      }).catch((err)=>{
+        console.log(err);
       })
+
     }
   };
 
@@ -70,8 +67,8 @@ const AuthForm = () => {
           <input type="password" id="password" required ref={passwordInputRef}/>
         </div>
         <div className={classes.actions}>
-          {!isLoading && <button> {isLogin ? 'Login' : 'Create Account'} </button>}
-          {isLoading && <p> Sending Request... </p>}
+           <button> {isLogin ? 'Login' : 'Create Account'} </button>
+          
           <button
             type="button"
             className={classes.toggle}
