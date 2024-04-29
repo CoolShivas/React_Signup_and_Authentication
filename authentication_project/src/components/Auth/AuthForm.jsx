@@ -22,41 +22,52 @@ const AuthForm = () => {
     const enteredPassword = passwordInputRef.current.value;
 
     setIsLoading(true);
+    let url ;
     if(isLogin)
     {
-     
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDH5JlMv2hpQuoT9E47PiPYHTdFE_P2Gs0`
     }
-    else{
-      fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=
-      AIzaSyDH5JlMv2hpQuoT9E47PiPYHTdFE_P2Gs0`,{
-        method : 'POST',
-        body : JSON.stringify({
-          email : enteredEmail,
-          password : enteredPassword,
-          returnSecureToken : true,
-        }),
-        headers:{
-          'Content-Type' : 'application/json'
-        },
-      }).then((res)=>{
-        setIsLoading(false);
-        if(res.ok){
-
-        }
-        else{
-          return res.json().then((data)=>{
-            let errMsg = 'Authentication failed';
-            if(data && data.error && data.error.message)
-            {
-              errMsg = data.error.message;
-            }
-            alert(errMsg);
-            console.log(errMsg);
-          })
-        }
-      })
-
+    else
+    {
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDH5JlMv2hpQuoT9E47PiPYHTdFE_P2Gs0`
     }
+    fetch(url, {
+      method : 'POST',
+      body : JSON.stringify({
+        email : enteredEmail,
+      password : enteredPassword,
+      returnSecureToken : true,
+      }),
+      headers : {
+        'Content-Type' : 'application/json',
+      },
+    }).then((response)=>{
+      setIsLoading(false);
+      if(response.ok)
+      {
+        return response.json();
+      }
+      else 
+      {
+        return response.json().then((data)=>{
+          let errMsg = "Authentication Failed";
+          // if(data && data.error && data.error.message)
+          // {
+          //   errMsg = data.error.message;
+          // }
+          // alert(errMsg);
+          throw new Error(errMsg);
+        })
+      }
+    }).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err.message);
+    })
+
+    emailInputRef.current.value = '';
+    passwordInputRef.current.value = '';
+    
   };
 
   return (
@@ -75,7 +86,7 @@ const AuthForm = () => {
         </div>
         <div className={classes.actions}>
            {!isLoading && <button> {isLogin ? 'Login' : 'Create Account'} </button>}
-           {isLoading && <p> Loading.... </p>}
+           {isLoading && <p> Sending Request.... </p>}
           
           <button
             type="button"
