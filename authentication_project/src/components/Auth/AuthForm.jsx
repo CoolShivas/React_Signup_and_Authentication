@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useState , useRef} from "react";
+import { useState , useRef, useContext} from "react";
 import classes from "./AuthForm.module.css";
+import AuthContext from "../../store/Auth-Context";
 
 const AuthForm = () => {
 
@@ -8,6 +9,7 @@ const AuthForm = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   
+  const {logIn} =  useContext(AuthContext);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -61,8 +63,10 @@ const AuthForm = () => {
       }
     }).then((res)=>{
       console.log(res);
+      logIn(res.idToken);
     }).catch((err)=>{
       console.log(err.message);
+      alert(err.message);
     })
 
     emailInputRef.current.value = '';
