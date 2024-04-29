@@ -5,6 +5,8 @@ import classes from "./AuthForm.module.css";
 const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
   
 
   const emailInputRef = useRef();
@@ -19,7 +21,7 @@ const AuthForm = () => {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    
+    setIsLoading(true);
     if(isLogin)
     {
      
@@ -37,6 +39,7 @@ const AuthForm = () => {
           'Content-Type' : 'application/json'
         },
       }).then((res)=>{
+        setIsLoading(false);
         if(res.ok){
 
         }
@@ -48,11 +51,9 @@ const AuthForm = () => {
               errMsg = data.error.message;
             }
             alert(errMsg);
-            console.log(data);
+            console.log(errMsg);
           })
         }
-      }).catch((err)=>{
-        console.log(err);
       })
 
     }
@@ -73,7 +74,8 @@ const AuthForm = () => {
           <input type="password" id="password" required ref={passwordInputRef}/>
         </div>
         <div className={classes.actions}>
-           <button> {isLogin ? 'Login' : 'Create Account'} </button>
+           {!isLoading && <button> {isLogin ? 'Login' : 'Create Account'} </button>}
+           {isLoading && <p> Loading.... </p>}
           
           <button
             type="button"
