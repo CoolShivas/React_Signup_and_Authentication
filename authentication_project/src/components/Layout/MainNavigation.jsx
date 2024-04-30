@@ -8,6 +8,7 @@ import AuthContext from '../../store/Auth-Context';
 const MainNavigation = () => {
 
   const {isLoggedIn} = useContext(AuthContext);
+
   return (
     <header className={classes.header}>
       <Link to='/'>
@@ -15,14 +16,17 @@ const MainNavigation = () => {
       </Link>
       <nav>
         <ul>
+          {/* Making the LogIn link dynamic with conditions. If LogIn not then show the LogIn Link. */}
           {!isLoggedIn && <li>
             <Link to='/auth'>Login</Link>
           </li>}
-          
+
+          {/* Making the Profile link dynamic with conditions. If LogIn then show Profile Link. */}
           {isLoggedIn &&  <li>
             <Link to='/profile'>Profile</Link>
           </li>}
          
+         {/* Making the Logout link dynamic with conditions. If LogIn then show the LogOut Link. */}
          {isLoggedIn &&  <li>
             <button>Logout</button>
           </li>}
