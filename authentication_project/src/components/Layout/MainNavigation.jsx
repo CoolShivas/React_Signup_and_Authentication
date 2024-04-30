@@ -1,13 +1,17 @@
 
 import { Link } from 'react-router-dom';
-
 import classes from './MainNavigation.module.css';
 import { useContext } from 'react';
 import AuthContext from '../../store/Auth-Context';
 
 const MainNavigation = () => {
 
-  const {isLoggedIn} = useContext(AuthContext);
+  const {isLoggedIn, logOut} = useContext(AuthContext);
+
+  const loggingOutHandler = () =>{
+    logOut(); // Calling the logOut function for successfully LogOut i.e, present in the auth context;
+    // console.log('logout clicked');
+  };
 
   return (
     <header className={classes.header}>
@@ -28,7 +32,7 @@ const MainNavigation = () => {
          
          {/* Making the Logout link dynamic with conditions. If LogIn then show the LogOut Link. */}
          {isLoggedIn &&  <li>
-            <button>Logout</button>
+            <button onClick={loggingOutHandler}>Logout</button>
           </li>}
         </ul>
       </nav>
