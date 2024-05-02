@@ -16,6 +16,11 @@
 
 //   const userIsLoggedIn = !!tokenLatest;
 
+// useEffect(()=>{
+//   localStorage.getItem('saveToken') && setTokenLatest(localStorage.getItem('saveToken'));
+//   setUserIsLoggedIn(true);
+// },[]);
+
 //   const handlerOnLogin = (tokey) => {
 //     setTokenLatest(tokey);
 //     localStorage.setItem('saveToken', tokey);
@@ -43,11 +48,8 @@
 // export default AuthContext;
 
 
-
-
 /////****************************************************************************************************************** */
-
-
+// // The above way is also correct
 
 import { createContext, useEffect, useState } from "react";
 
@@ -59,7 +61,6 @@ const AuthContext = createContext({
 });
 
 export const ContextProvider = (props) => {
-
   /// Here, localStorage.getItem("token") is not defineed and set the initialToken to undefined to get whatever present in the localStorage;
   // const initialToken = localStorage.getItem('user' || null);
 
@@ -69,30 +70,39 @@ export const ContextProvider = (props) => {
   // const userIsLoggedIn = !!tokenLatest;
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(tokenLatest);
 
-
-  // useEffect(()=>{
-  //   localStorage.getItem('user') && setTokenLatest(localStorage.getItem('user'));
-  //   setUserIsLoggedIn(tokenLatest !== null);
-  // },[]);
-
+ 
   useEffect(() => {
-    const storedUserLoggedInformation = localStorage.getItem('saveToken');
+    const storedUserLoggedInformation = localStorage.getItem("saveToken");
     if (storedUserLoggedInformation) {
-        setUserIsLoggedIn(true);
+      setUserIsLoggedIn(true);
     }
-}, [])
+  }, []);
+
+  useEffect(()=>{
+    const timerId = setTimeout(()=>{
+      handlerOnLogOut();
+      alert('You have to login again');
+    },5000);
+
+    return (()=>{
+      clearTimeout(timerId);
+    });
+  },[]);
 
   const handlerOnLogin = (tokey) => {
     setTokenLatest(tokey);
-    localStorage.setItem('saveToken', tokey);
+    localStorage.setItem("saveToken", tokey);
     setUserIsLoggedIn(true);
   };
 
   const handlerOnLogOut = () => {
     setTokenLatest(null);
-    localStorage.removeItem('saveToken');
+    localStorage.removeItem("saveToken");
     setUserIsLoggedIn(false);
   };
+
+
+  
 
   const contextValue = {
     token: tokenLatest,
@@ -110,8 +120,4 @@ export const ContextProvider = (props) => {
 
 export default AuthContext;
 
-
-
 //////******************************************************************************************************* */
-
-
