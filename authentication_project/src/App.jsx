@@ -6,10 +6,56 @@ import HomePage from "./pages/HomePage";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import AuthContext from "./store/Auth-Context";
 
+
+
+
+
+
+// function App() {
+
+//   const {isLoggedIn}  = useContext(AuthContext);
+//  console.log(isLoggedIn);
+//    return (
+//      <Layout>
+//        <Switch>
+//          <Route path='/' exact>
+//            <HomePage />
+//          </Route>
+ 
+         
+//          <Route path='/auth'>
+//            <AuthPage />
+//          </Route>
+ 
+         
+//          <Route path='/profile'>
+//            <UserProfile />
+//          </Route>
+ 
+//          <Route path="/profile">
+//            <UserProfile />
+//          </Route>
+ 
+        
+ 
+//        </Switch>
+//      </Layout>
+//    );
+//  }
+ 
+//  export default App;
+
+ 
+
+
+//////********************************************************************************************************** */
+
+
+
 function App() {
 
  const {isLoggedIn}  = useContext(AuthContext);
-
+// console.log(isLoggedIn);
   return (
     <Layout>
       <Switch>
@@ -26,6 +72,7 @@ function App() {
         {/* {isLoggedIn && <Route path='/profile'>
           <UserProfile />
         </Route>} */}
+
         {/* Here, profile url acces is possible ; */}
         <Route path="/profile">
           {/* But, here if the user logged in then access the profile page or redirect to login or signup page */}
